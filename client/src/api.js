@@ -1,11 +1,10 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'; // Gunakan variabel environment dari Vite
+const API_URL = 'https://login-page-nts7hqzx0-evandarus-projects.vercel.app/'; // Gunakan variabel environment dari Vite
 
 export const login = async (email, password) => {
     const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'x-api-key': 'lele', // Akses API key dari environment Vite
         },
         body: JSON.stringify({ email, password }),
     });
