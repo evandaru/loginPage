@@ -6,7 +6,7 @@ require('dotenv').config();
 const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 5001
 
 app.use(cors());
 app.use(cors({
@@ -14,14 +14,14 @@ app.use(cors({
 }));
 
 
-const connectionString = process.env.URI;
+const connectionString = "postgresql://postgres.heafwwqjgzyfezrmzqqn:Z5y66U4H76lNwZVC@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres"
 const sql = postgres(connectionString);
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
 // Middleware to check for API key
-const apiKey = process.env.API_KEY; // Store your API key in .env
+const apiKey = "lele"; // Store your API key in .env
 
 const authenticateApiKey = (req, res, next) => {
     const key = req.headers['x-api-key'];
@@ -48,7 +48,7 @@ const comparePassword = async (password, hashedPassword) => {
 
 // Generate JWT token
 const generateToken = (user) => {
-    return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ id: user.id, email: user.email }, "sapi", { expiresIn: '1h' });
 };
 
 
@@ -132,7 +132,7 @@ const authenticateJWT = (req, res, next) => {
         return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    jwt.verify(token, "sapi", (err, user) => {
         if (err) {
             return res.status(403).json({ error: 'Forbidden: Invalid Token' });
         }
