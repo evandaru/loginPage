@@ -21,7 +21,6 @@ export const signup = async (name, email, password) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'x-api-key': 'lele', // Akses API key dari environment Vite
         },
         body: JSON.stringify({ name, email, password }),
     });
