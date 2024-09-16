@@ -21,19 +21,7 @@ const sql = postgres(connectionString);
 app.use(express.json());
 
 // Middleware to check for API key
-const apiKey = "lele"; // Store your API key in .env
 
-const authenticateApiKey = (req, res, next) => {
-    const key = req.headers['x-api-key'];
-    if (key && key === apiKey) {
-        next(); // API key is valid, proceed to the next middleware or route handler
-    } else {
-        res.status(403).json({ error: 'Forbidden: Invalid API Key' });
-    }
-};
-
-// Apply the API key authentication middleware to all routes
-app.use(authenticateApiKey);
 
 // Hash a password
 const hashPassword = async (password) => {
