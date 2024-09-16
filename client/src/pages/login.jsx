@@ -1,13 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { login, setSession, isSessionExpired, clearSession } from '../api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const session = JSON.parse(localStorage.getItem('user'));
+    if (session && !isSessionExpired()) {
+      navigate('/dashboard');
+    } else if (isSessionExpired()) {
+      clearSession();
+    }
+  }, [navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Proses login atau validasi
-    alert(`Email: ${email}\nPassword: ${password}`);
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await login(email, password);
+      setSession(response.name, response.token);
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Login failed:', err);
+      setError('Invalid email or password. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,15 +68,17 @@ const Login = () => {
               required
             />
           </div>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
           <button
             type="submit"
             className="btn btn-primary w-full"
+            disabled={loading}
           >
-            Login
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
         <p className="mt-4 text-center text-gray-600">
-          Don't have an account? <a href="#signup" className="link link-primary">Sign up</a>
+          Don't have an account? <a href="/signup" className="link link-primary">Sign up</a>
         </p>
       </div>
     </div>

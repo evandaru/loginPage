@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signup, setSession } from '../api'; // Import signup dan setSession
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -7,10 +8,16 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Proses signup atau validasi
-    alert(`Name: ${name}\nEmail: ${email}\nPassword: ${password}`);
+
+    try {
+      const response = await signup(name, email, password);
+      setSession(name, response.token); // Simpan token dan waktu login
+      navigate('/');
+    } catch (err) {
+      console.error('Signup failed:', err);
+    }
   };
 
   return (
