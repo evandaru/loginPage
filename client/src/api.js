@@ -1,4 +1,4 @@
-const API_URL = 'https://login-page-nts7hqzx0-evandarus-projects.vercel.app/'; // Gunakan variabel environment dari Vite
+const API_URL = 'https://login-page-nts7hqzx0-evandarus-projects.vercel.app'; // Gunakan variabel environment dari Vite
 
 export const login = async (email, password) => {
     const response = await fetch(`${API_URL}/login`, {
