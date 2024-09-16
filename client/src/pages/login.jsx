@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login, setSession, isSessionExpired, clearSession } from '../api';
+import api from '../api';
+const { login, setSession, isSessionExpired, clearSession } = api;
 
 const Login = () => {
   const [email, setEmail] = useState('');
